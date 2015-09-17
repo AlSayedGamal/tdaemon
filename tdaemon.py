@@ -10,18 +10,18 @@ The present code is published under the terms of the MIT License. See LICENSE
 file for more details.
 """
 
-
-import sys
-import os
-import optparse
-from time import sleep
-import hashlib
-import subprocess
 import datetime
+import hashlib
+import optparse
+import os
 import re
 import subprocess
+import sys
 
-SPECIAL_CHARS_REGEX_PATTERN = r'[#&;`|*?~<>^()\[\]{}$\\]+' 
+from time import sleep
+
+
+SPECIAL_CHARS_REGEX_PATTERN = r'[#&;`|*?~<>^()\[\]{}$\\]+'
 IGNORE_EXTENSIONS = ('pyc', 'pyo')
 IGNORE_DIRS = ('.bzr', '.git', '.hg', '.darcs', '.svn', '.tox')
 IMPLEMENTED_TEST_PROGRAMS = ('nose', 'nosetests', 'django', 'py', 'symfony',
@@ -53,7 +53,7 @@ def ask(message='Are you sure? [y/N]'):
 def escapearg(args):
     """Escapes characters you don't want in arguments (preventing shell
     injection)"""
-    return re.sub(SPECIAL_CHARS_REGEX_PATTERN, '', args) 
+    return re.sub(SPECIAL_CHARS_REGEX_PATTERN, '', args)
 
 class Watcher(object):
     """
@@ -63,7 +63,7 @@ class Watcher(object):
     file_list = {}
     debug = False
 
-    def __init__(self, file_path, test_program, debug=False, custom_args='', 
+    def __init__(self, file_path, test_program, debug=False, custom_args='',
         ignore_dirs=None, quiet=False):
         # Safe filter
         custom_args = escapearg(custom_args)
@@ -119,7 +119,7 @@ class Watcher(object):
                 sys.exit('django is not available on your system. Please install it and try to run it again')
         if self.test_program == 'phpunit':
             try:
-                process = subprocess.check_call(['phpunit','--version']) 
+                process = subprocess.check_call(['phpunit','--version'])
             except:
                 sys.exit('phpunit is not available on your system. Please install it and try to run it again')
         if self.test_program == 'tox':
@@ -268,7 +268,7 @@ def main(prog_args=None):
 
 
     try:
-        watcher = Watcher(path, opt.test_program, opt.debug, opt.custom_args, 
+        watcher = Watcher(path, opt.test_program, opt.debug, opt.custom_args,
             opt.ignore_dirs, opt.quiet)
         watcher_file_size = watcher.file_sizes()
         if watcher_file_size > opt.size_max:
