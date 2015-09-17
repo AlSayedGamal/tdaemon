@@ -15,6 +15,7 @@ import hashlib
 import optparse
 import os
 import re
+import shlex
 import subprocess
 import sys
 
@@ -213,9 +214,11 @@ class Watcher(object):
     def run(self, cmd):
         """Runs the appropriate command"""
         print datetime.datetime.now()
-        output = subprocess.Popen(cmd, shell=True)
-        output = output.communicate()[0]
-        print output
+        process = subprocess.Popen(shlex.split(cmd),
+                                   stdin=sys.stdin,
+                                   stdout=sys.stdout,
+                                   stderr=sys.stderr)
+        process.wait()
 
     def run_tests(self):
         """Execute tests"""
